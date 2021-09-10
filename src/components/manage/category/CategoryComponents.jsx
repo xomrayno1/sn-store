@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from '../Header'
 
 function CategoryComponents(props) {
+    useEffect(() => {
+        console.log("category component");
+    })
     return (
         <>
          <Header/>

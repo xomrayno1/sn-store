@@ -6,21 +6,24 @@ import {
     NavbarBrand,
     Nav,
     NavItem,
-    NavLink,
-} from 'reactstrap';
-import { Link} from 'react-router-dom'
+  } from 'reactstrap';
+import {
+    Link
+} from 'react-router-dom'
 import routes from '../../routes'
 
 function Header(props) {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
     const url = window.location.pathname;
-    useEffect(() => {
-        console.log("header manage component");
+    console.log("header component");
+    useEffect(()=>{
+        console.log("header Effect component 1");
     })
+
     return (
         <div>
-            <div >
+            <div>
                 <Navbar color="light" light expand="md" >
                     <div className="container d-flex flex-column flex-md-row justify-content-between">
                         <NavbarBrand href="/" >SN STORE</NavbarBrand>
@@ -28,7 +31,7 @@ function Header(props) {
                         <Collapse isOpen={isOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             {
-                                routes.filter(item => item.role.includes("admin")).map(ele => (
+                                routes.filter(item => item.role.includes("user")).map(ele => (
                                     <NavItem className="py-2 d-none d-md-inline-block">
                                         <Link key={"ele.path"} className={url === ele.path ? "nav-link active" : "nav-link"} to={ele.path}>
                                             {ele.name}
