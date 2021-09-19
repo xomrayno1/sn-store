@@ -1,36 +1,45 @@
 import React, {useEffect, useState} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {Spin} from 'antd';
+
 import Header from '../Header'
 import ProductList from './ProductList'
-function HomeComponents(props) {
-    console.log("home component");
+import {
+    getSearchListFilter
+} from '../../../redux/action/productAction'
 
-    useEffect(()=>{
-        console.log("Home Effect component Every re-render");
+function HomeComponents(props) {
+    const {isLoading} = useSelector(state => state.product);
+    const {content} = useSelector(state => state.product.data.data) || {content: []};
+ 
+    const dispatch = useDispatch();
+
+    const [filter, setFilter] = useState({
+        "searchKey" : "",
+        "sortCase" : 1,
+        "ascSort": true,
+        "pageNumber": 1,
+        "pageSize": 10
     })
 
     useEffect(()=>{
-        console.log("Home  Effect component only re-render");
-    },[])
+        dispatch(getSearchListFilter(filter));
+    },[filter])
 
-    const products = [{name: "Oshi", price: 700, id : 1}, {name: "Vịt", price: 900, id : 2}, {name: "Gà", price: 800, id : 3}]
-
-    const [show, setShow] = useState(false);
-
-    const onClickShow = () => {
-        setShow(!show);
-    }
 
     return (
         <>
             <Header/>
             <div>
                 <h1>Trang chủ</h1>
-                <button className="btn btn-info" onClick={onClickShow}>Show / Hide</button>
-                <ul>
+                <h2>Sản phẩm</h2>
+                <div className="container px-4 px-lg-5 mt-5">
                     {
-                        show && products.map(element => <ProductList key={element.id} element={element}/> )
+                        <Spin spinning={isLoading} tip="Loading...">
+                            <ProductList products={content}/>
+                        </Spin>
                     }
-                </ul>
+                </div>
             </div>
         </>
     );

@@ -16,10 +16,6 @@ function Header(props) {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
     const url = window.location.pathname;
-    console.log("header component");
-    useEffect(()=>{
-        console.log("header Effect component 1");
-    })
 
     return (
         <div>
