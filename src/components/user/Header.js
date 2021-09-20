@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Collapse,
     Navbar,
@@ -6,11 +6,13 @@ import {
     NavbarBrand,
     Nav,
     NavItem,
-  } from 'reactstrap';
+} from 'reactstrap';
 import {
     Link
 } from 'react-router-dom'
 import routes from '../../routes'
+
+import '../user/style.css'
 
 function Header(props) {
     const [isOpen, setIsOpen] = useState(false);
@@ -18,14 +20,13 @@ function Header(props) {
     const url = window.location.pathname;
 
     return (
-        <div>
-            <div>
-                <Navbar color="light" light expand="md" >
-                    <div className="container d-flex flex-column flex-md-row justify-content-between">
-                        <NavbarBrand href="/" >SN STORE</NavbarBrand>
-                        <NavbarToggler onClick={toggle} />
-                        <Collapse isOpen={isOpen} navbar>
-                        <Nav className="mr-auto" navbar>
+        <>
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <div className="container px-4 px-lg-5">
+                    <NavbarBrand href="/" >SN STORE</NavbarBrand>
+                    <NavbarToggler onClick={toggle} />
+                    <Collapse className="collapse navbar-collapse" id="navbarSupportedContent" isOpen={isOpen}>
+                        <Nav className="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4" navbar>
                             {
                                 routes.filter(item => item.role.includes("user")).map(ele => (
                                     <NavItem className="py-2 d-none d-md-inline-block">
@@ -36,11 +37,26 @@ function Header(props) {
                                 ))
                             }
                         </Nav>
-                        </Collapse>
+                        <form className="d-flex">
+                            <button className="btn btn-outline-dark" type="submit">
+                                <i className="bi-cart-fill me-1"></i>
+                                Cart
+                                <span className="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                            </button>
+                        </form>
+                    </Collapse>
+                </div>
+            </nav>
+{/* 
+            <header class="bg-dark py-5">
+                <div class="container px-4 px-lg-5 my-5">
+                    <div class="text-center text-white">
+                        <h1 class="display-4 fw-bolder">Shop in style</h1>
+                        <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
                     </div>
-                </Navbar>
-            </div>
-        </div>
+                </div>
+            </header> */}
+        </>
     );
 }
 
