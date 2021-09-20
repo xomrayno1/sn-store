@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import {Spin} from 'antd';
+import { Spin } from 'antd';
 
 import {
     getSearchListFilter
@@ -15,10 +15,10 @@ ProductList.defaultProps ={
     products: []
 }
 
-function ProductList() {
+function ProductList({category}) {
 
-    const {isLoading} = useSelector(state => state.product);
-    const {content} = useSelector(state => state.product.data.data) || {content: []};
+    const { isLoading } = useSelector(state => state.product);
+    const { content } = useSelector(state => state.product.data.data) || {content: []};
  
     const dispatch = useDispatch();
 
@@ -27,7 +27,8 @@ function ProductList() {
         "sortCase" : 1,
         "ascSort": true,
         "pageNumber": 1,
-        "pageSize": 10
+        "pageSize": 10,
+        "categoryId": category 
     })
     useEffect(()=>{
         dispatch(getSearchListFilter(filter));
@@ -41,7 +42,6 @@ function ProductList() {
                     content.map(item => (
                         <div className="col mb-5" key={item.id}>
                             <div className="card h-100">
-                                <div className="badge bg-dark text-white position-absolute" style={{top : "0.5rem", right: "0.5rem"}}>Sale</div>
                                 <img className="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
                                 <div className="card-body p-4">
                                     <div className="text-center">
