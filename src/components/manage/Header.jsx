@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+
+import React, { useEffect, useState } from 'react';
 import {
     Collapse,
     Navbar,
@@ -6,26 +7,26 @@ import {
     NavbarBrand,
     Nav,
     NavItem,
-    NavLink,
 } from 'reactstrap';
-import { Link} from 'react-router-dom'
+import {
+    Link
+} from 'react-router-dom'
 import routes from '../../routes'
+
+import '../user/style.css'
 
 function Header(props) {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
     const url = window.location.pathname;
-    useEffect(() => {
-        console.log("header manage component");
-    })
+
     return (
-        <div>
-            <div >
-                <Navbar color="light" light expand="md" >
-                    <div className="container d-flex flex-column flex-md-row justify-content-between">
-                        <NavbarBrand href="/" >SN STORE</NavbarBrand>
-                        <NavbarToggler onClick={toggle} />
-                        <Collapse isOpen={isOpen} navbar>
+        <>
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <div className="container px-4 px-lg-5">
+                    <NavbarBrand href="/" >SN STORE</NavbarBrand>
+                    <NavbarToggler onClick={toggle} />
+                    <Collapse isOpen={isOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             {
                                 routes.filter(item => item.role.includes("admin")).map(ele => (
@@ -38,10 +39,18 @@ function Header(props) {
                             }
                         </Nav>
                         </Collapse>
+                </div>
+            </nav>
+            {/* 
+            <header class="bg-dark py-5">
+                <div class="container px-4 px-lg-5 my-5">
+                    <div class="text-center text-white">
+                        <h1 class="display-4 fw-bolder">Shop in style</h1>
+                        <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
                     </div>
-                </Navbar>
-            </div>
-        </div>
+                </div>
+            </header> */}
+        </>
     );
 }
 

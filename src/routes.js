@@ -12,10 +12,6 @@ var routes = [
         path: "/manage",
         role: ["user"]
     },{
-        name: "Trang chủ",
-        path: "/manage",
-        role: ["admin"]
-    },{
         name: "Quản lý danh mục",
         path: "/manage/category",
         role: ["admin"]
