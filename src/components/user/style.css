@@ -11281,3 +11281,8 @@ footer {
   height: 10px;   /* Height of the footer */
   background:#6cf;
 }
+
+.text-error{
+  color: red;
+  text-align: center;
+}

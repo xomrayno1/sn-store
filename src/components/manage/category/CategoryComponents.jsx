@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { confirm, warning } from '../../../common/ModalAlert'
 import Header from '../Header'
 import { getSearchListFilter } from '../../../redux/action/categoryAction'
+import CategoryModal from './CategoryModal';
 
 function CategoryComponents(props) {
     const columns = [
@@ -59,12 +60,11 @@ function CategoryComponents(props) {
 
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
-    const onSelectChange = (selectedRowKeys) => {
-        setSelectedRowKeys(selectedRowKeys);
-    }
     const rowSelection = {
         selectedRowKeys,
-        onChange: onSelectChange
+        onChange: (selectedRowKeys, selectedRows) => {
+            setSelectedRowKeys(selectedRowKeys);
+        },
     }
 
     const onHandleOkDelete = () => {
@@ -88,27 +88,28 @@ function CategoryComponents(props) {
         })
     }
 
-    // modal
+    //modal
 
     const [modal, setModal] = useState({
         title: '',
         visible: false,
     });
 
-    const handleCancel = () => {
-        setModal({ ...modal, visible: false })
-    }
+    const categoryRef = useRef();
+    
+    const [loadingForm, setLoadingForm] = useState(false);
 
-    const handleOk = () => {
-        setModal({ ...modal, visible: false })
-    }
+    const [confirmLoading, setConfirmLoading] = useState(false)
 
     const onClickUpdate = (item) => {
-        console.log(item);
         setModal({ ...modal, title: 'Cập nhật danh mục', visible: true })
+        setLoadingForm(true)
+        setTimeout(() => {
+            categoryRef.current.setValues({...item});
+            setLoadingForm(false);
+        },500);
+    
     }
-
-
 
     return (
         <>
@@ -143,25 +144,20 @@ function CategoryComponents(props) {
                         total: totalElements,
                         pageSize: size,
                         onChange: onHandlePagination
-
                     }}
+                    rowKey={item => item.id}
                     loading={loading}
                 />
-
-                <Modal
-                    title={modal.title}
-                    centered
-                    visible={modal.visible}
-                    width={600}
-                    onOk={handleOk}
-                    // confirmLoading={confirmLoading}
-                    onCancel={handleCancel}
-                >
-                    <p>Text</p>
-                </Modal>
-
+                <CategoryModal 
+                    categoryRef={categoryRef} 
+                    loadingForm={loadingForm} 
+                    modal={modal} 
+                    setModal={setModal}
+                    confirmLoading={confirmLoading}
+                    setConfirmLoading={setConfirmLoading}
+                />
+ 
             </div>
-
         </>
     );
 }
