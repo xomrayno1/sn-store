@@ -12,19 +12,19 @@ export const getSearchListFilter = (payload) => {
     }
 }
 
-export const createCategory = (payload, ref) => {
+export const createCategory = (ref, handleCancel) => {
     return {
         type: CATEGORY_CREATE,
-        payload,
-        ref
+        ref,
+        handleCancel
     }
 }
 
-export const updateCategory = (payload, ref) => {
+export const updateCategory = (ref, handleCancel) => {
     return {
         type: CATEGORY_UPDATE,
-        payload,
-        ref
+        ref,
+        handleCancel
     }
 }
 

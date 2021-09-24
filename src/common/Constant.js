@@ -1,3 +1,5 @@
+import { message } from 'antd';
+
 
 export const CATEGORY_GET_LIST_PSSF = "category_get_list_paging_sort_search_filter";
 export const CATEGORY_GET_LIST_PSSF_SUCCESS = "category_get_list_paging_sort_search_filter_success";
@@ -35,6 +37,32 @@ export const API_PRODUCT_GET_LIST_PSSF = API_PRODUCT + "/product_get_list_paging
 //category
 export const API_CATEGORY = BASE_URL + "/api/v1/categories";
 export const API_CATEGORY_GET_LIST_PSSF = API_CATEGORY + "/category_get_list_paging_sort_search_filter";
+export const API_CATEGORY_CREATE = API_CATEGORY + "/category_create";
+export const API_CATEGORY_UPDATE = API_CATEGORY + "/category_update";
+export const API_CATEGORY_DELETE = API_CATEGORY + "/category_delete";
+
 
 export const TextInputComponennt = (prop) => (<input  {...prop} className="ant-input" type="text" />);
 export const TextAreaComponennt = (prop) => (<textarea {...prop} className="ant-input"/>)
+
+export const CategoryFilterDefault = {
+    "searchKey": "",
+    "sortCase": 1,
+    "ascSort": true,
+    "pageNumber": 1,
+    "pageSize": 5
+}
+ 
+
+export const getMessage = (type, text) => {
+    switch(type){
+        case 'success':
+            return message.success(text);
+        case 'error':
+            return message.error(text);
+        case 'warning':
+            return  message.warning(text);
+        default:
+            return ;
+    }
+}

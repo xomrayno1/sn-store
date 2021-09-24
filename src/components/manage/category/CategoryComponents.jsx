@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Table, Button, Space, Input, Modal, Spin } from 'antd';
+import { Table, Button, Space, Input, Tag } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { confirm, warning } from '../../../common/ModalAlert'
 import Header from '../Header'
-import { getSearchListFilter } from '../../../redux/action/categoryAction'
+import { getSearchListFilter, deleteCategory } from '../../../redux/action/categoryAction'
 import CategoryModal from './CategoryModal';
 
 function CategoryComponents(props) {
@@ -14,11 +14,15 @@ function CategoryComponents(props) {
             title: 'Id',
             dataIndex: 'id',
         }, {
-            title: 'Name',
+            title: 'Tên',
             dataIndex: 'name',
         }, {
             title: 'Mô tả',
             dataIndex: 'description',
+        }, {
+            title: 'Tình trạng',
+            dataIndex: 'active_flag',
+            render: item => item === 0 ? <Tag color="default">Chưa hoạt động</Tag> : item === 1 ? <Tag color="red">Đã Xoá</Tag> : <Tag color="green">Hoạt động</Tag>
         }, {
             title: 'Ngày tạo',
             dataIndex: 'created_date',
@@ -42,7 +46,9 @@ function CategoryComponents(props) {
 
     const { loading } = useSelector(state => state.category);
 
-    const { content, totalElements, size } = useSelector(state => state.category.data) || { content: [], totalElements: 0, totalPages: 0 };
+    const { content, totalElements, size, pageNumber } = useSelector(state => state.category.data) || { content: [], totalElements: 0, totalPages: 0, pageNumber: 0};
+
+    console.log(pageNumber);
 
     const [filter, setFilter] = useState({
         "searchKey": "",
@@ -68,6 +74,7 @@ function CategoryComponents(props) {
     }
 
     const onHandleOkDelete = () => {
+        dispatch(deleteCategory(selectedRowKeys));
         setSelectedRowKeys([]);
     }
 
@@ -88,7 +95,7 @@ function CategoryComponents(props) {
         })
     }
 
-    //modal
+    //modal control
 
     const [modal, setModal] = useState({
         title: '',
@@ -96,7 +103,7 @@ function CategoryComponents(props) {
     });
 
     const categoryRef = useRef();
-    
+
     const [loadingForm, setLoadingForm] = useState(false);
 
     const [confirmLoading, setConfirmLoading] = useState(false)
@@ -105,10 +112,10 @@ function CategoryComponents(props) {
         setModal({ ...modal, title: 'Cập nhật danh mục', visible: true })
         setLoadingForm(true)
         setTimeout(() => {
-            categoryRef.current.setValues({...item});
+            categoryRef.current.setValues({ ...item });
             setLoadingForm(false);
-        },500);
-    
+        }, 500);
+
     }
 
     return (
@@ -143,20 +150,21 @@ function CategoryComponents(props) {
                     pagination={{
                         total: totalElements,
                         pageSize: size,
-                        onChange: onHandlePagination
+                        onChange: onHandlePagination,
+                        current: pageNumber && pageNumber + 1
                     }}
                     rowKey={item => item.id}
                     loading={loading}
                 />
-                <CategoryModal 
-                    categoryRef={categoryRef} 
-                    loadingForm={loadingForm} 
-                    modal={modal} 
+                <CategoryModal
+                    categoryRef={categoryRef}
+                    loadingForm={loadingForm}
+                    modal={modal}
                     setModal={setModal}
                     confirmLoading={confirmLoading}
                     setConfirmLoading={setConfirmLoading}
                 />
- 
+
             </div>
         </>
     );

@@ -30,8 +30,8 @@ function Header(props) {
                         <Nav className="mr-auto" navbar>
                             {
                                 routes.filter(item => item.role.includes("admin")).map(ele => (
-                                    <NavItem className="py-2 d-none d-md-inline-block">
-                                        <Link key={"ele.path"} className={url === ele.path ? "nav-link active" : "nav-link"} to={ele.path}>
+                                    <NavItem key={ele.path} className="py-2 d-none d-md-inline-block">
+                                        <Link className={url === ele.path ? "nav-link active" : "nav-link"} to={ele.path}>
                                             {ele.name}
                                         </Link>
                                     </NavItem>
